@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <RNTableView/RNAppGlobals.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -37,6 +38,7 @@ static void InitializeFlipper(UIApplication *application) {
                                             initialProperties:nil];
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+  [[RNAppGlobals sharedInstance] setAppBridge:rootView.bridge];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
