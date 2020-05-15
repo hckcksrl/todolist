@@ -7,7 +7,16 @@ import AsyncStorage from '@react-native-community/async-storage'
 const { Section, Item, Cell } = TableView
 
 export const EditWrap = (props) => {
-    const { list, setList } = props
+    const { list, setList, setDel } = props
+
+    useEffect(() => {
+        for (let item of list) {
+            if (item.checked) {
+                return setDel(true)
+            }
+        }
+        setDel(false)
+    }, [list])
 
     const checkedChange = (event) => {
         const { selectedIndex } = event

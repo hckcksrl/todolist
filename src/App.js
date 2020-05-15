@@ -8,7 +8,9 @@ import { EditModal } from './component/modal';
 const App = () => {
   const [edit, setEdit] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [list, setList] = useState()
+  const [list, setList] = useState([])
+  const [del, setDel] = useState(false)
+
 
   useEffect(() => {
     AsyncStorage.getAllKeys((err, data) => {
@@ -19,6 +21,11 @@ const App = () => {
         AsyncStorage.getItem('list').then((result) => {
           const data = JSON.parse(result)
           setList(data)
+          for (let item of data) {
+            if (item.checked) {
+              setDel(true)
+            }
+          }
         })
       }
     })
@@ -55,12 +62,13 @@ const App = () => {
           <Title>TodoList</Title>
         </Body>
         <Right style={{ padding: 10 }}>
-          <TouchableOpacity onPress={_CheckDelete}>
+          {del ? <TouchableOpacity onPress={_CheckDelete}>
             <Text style={{ fontWeight: '600' }}>삭제</Text>
           </TouchableOpacity>
+            : null}
         </Right>
       </Header>
-      <EditWrap edit={edit} list={list} setList={setList} />
+      <EditWrap edit={edit} list={list} setList={setList} setDel={setDel} />
       {!edit ? <Button style={styles.refreshButton} onPress={() => setVisible(!visible)}>
         <View style={[styles.refreshButtonView]}>
           <Icon name={'add'} type={'MaterialIcons'} style={styles.refreshIcon} />
